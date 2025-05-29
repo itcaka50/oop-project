@@ -13,7 +13,7 @@ public:
 
     Player(int X, int Y, char Symbol, SDL_Color Color, int Lives, int Score) : GameObject(X, Y, Symbol, Color), lives(Lives), score(Score) {}
 
-    Player(Player& other) {}
+    Player(const Player& other) : GameObject(other), lives(other.lives), score(other.score) {}
 
     Player(Player&& other) {}
 
@@ -27,17 +27,19 @@ public:
     //napishi
     void shoot();
 
-    void getLives();
+    int getLives() const;
 
-    void getScore();
+    int getScore() const;
 
     void setLives(int Lives);
 
     void setScore(int Score);
 
-    //napishi
     void operator+();
 
-    //napishi
     void operator-();
+    //napishi
+    void update() override;
+    //napishi
+    void render() override;
 };
