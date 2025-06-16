@@ -1,101 +1,77 @@
 #include "Player.h"
+#include <iostream>
 
-    Player::Player(Player&& other) : GameObject(other), lives(other.lives), score(other.score)
+
+void Player::moveLeft() {
+    if (x > 1)
     {
-        other.x = 0;
-        other.y = 0;
-        other.symbol = NULL;
-        other.color = {0,0,0,0};
-        other.lives = 0;
-        other.score = 0;
-    }
+        x--;
+    }  
+}
 
-    Player& Player::operator=(const Player& other)
+void Player::moveRight() {
+    if (x < 78) 
+    { 
+        x++; 
+    }
+}
+
+void Player::shoot() {
+    std::cout << "Player shoots!\n";
+}
+
+
+void Player::printStatus() const {
+    std::cout << "Player Position: (" << x << ", " << y << ") | Lives: " << lives << " | Score: " << score << std::endl;
+}
+
+int Player::getScore() const {
+    return score;
+}
+
+int Player::getLives() const
+{
+    return lives;
+}
+
+Player& Player::operator++(int)
+{
+    lives++;
+    return *this;
+}
+
+Player& Player::operator--(int)
+{
+    lives--;
+    return *this;
+}
+
+Player& Player::operator=(const Player& other)
+{
+    if (this != &other)
     {
-        if(this != &other)
-        {
-            this->x = other.x;
-            this->y = other.y;
-            this->symbol = other.symbol;
-            this->color = other.color;
-            this->lives = other.lives;
-            this->score = other.score;
-        }
-        return *this;
+        x = other.x;
+        y = other.y;
+        symbol = other.symbol;
+        color = other.color;
+        lives = other.lives;
+        score = other.score;
     }
+    return *this;
+}
 
-    Player& Player::operator=(Player&& other)
+void Player::render()
+{
+    if (y < 23)
     {
-        if(this != &other)
-        {
-            this->x = other.x;
-            this->y = other.y;
-            this->symbol = other.symbol;
-            this->color = other.color;
-            this->lives = other.lives;
-            this->score = other.score;
-
-            other.x = 0;
-            other.y = 0;
-            other.symbol = NULL;
-            other.color = {0,0,0,0};
-            other.lives = 0;
-            other.score = 0;    
-        }
-        return *this;
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        COORD pos = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+        SetConsoleCursorPosition(hConsole, pos);
+        cout << static_cast<char>(symbol);
     }
-    
-    void Player::moveRight() 
-    {
-        //primerno
-        if (x != 500) //500 e random chislo, x ne trqbva da minava prez dqsnata stena, kato se razbere kolko e golqma duljinata na prozoreca sh se smeni
-        x += 1;
-    }
+}
 
-    void Player::moveLeft()
-    {
-        if (x != 0)
-        x -=1;
-    }
-
-    void Player::shoot() {}
-
-    int Player::getLives() const
-    {
-        return lives;
-    }
-
-    int Player::getScore() const 
-    {
-        return score;
-    }
-
-    void Player::setLives(int Lives) 
-    {
-        lives = Lives;
-    }
-
-    void Player::setScore(int Score)
-    {
-        score = Score;
-    }
-
-    void Player::update()
-    {
-
-    }
-
-    void Player::render()
-    {
-        
-    }
-
-    void Player::operator+()
-    {
-        lives++;
-    }
-
-    void Player::operator-()
-    {
-        lives--;
-    }
+void Player::update()
+{
+    this->render();
+}

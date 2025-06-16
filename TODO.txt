@@ -1,1 +1,1 @@
-1.opravi si metodite render, update, move, shoot vuv vsichki clasove, kato opravish arenata.
+smeni windows.h sus sdl taka che da vurvi i na linux.

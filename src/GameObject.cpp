@@ -1,78 +1,68 @@
 #include "GameObject.h"
 
-GameObject::GameObject(GameObject&& other) : x(other.x), y(other.y), symbol(other.symbol), color(other.color)
-{
-    other.x = 0;
-    other.y = 0;
-    other.symbol = NULL;
-    other.color = {0,0,0,0};
-}
+GameObject::GameObject(int X, int Y, char Symbol, COLORS Color) : x(X), y(Y), symbol(Symbol), color(Color) {}
 
-GameObject& GameObject::operator=(const GameObject& other)
-{
-    if(this != &other)
-    {
-        this->x = other.x;
-        this->y = other.y;
-        this->symbol = other.symbol;
-        this->color = other.color;
-    }
-    return *this;
-}
-
-GameObject& GameObject::operator=(GameObject&& other)
-{
-    if(this != &other)
-    {
-        this->x = other.x;
-        this->y = other.y;
-        this->symbol = other.symbol;
-        this->color = other.color;
-
-        other.x = 0;
-        other.y = 0;
-        other.symbol = NULL;
-        other.color = {0,0,0,0};    
-    }
-    return *this;
-}
-
-int GameObject::getX()
-{
+int GameObject::getX() const {
     return x;
 }
 
-int GameObject::getY()
-{
+int GameObject::getY() const {
     return y;
 }
 
-char GameObject::getSymbol()
-{
+char GameObject::getSymbol() const {
     return symbol;
 }
 
-SDL_Color GameObject::getColor()
-{
+int GameObject::getColor() const {
     return color;
 }
 
-void GameObject::setX(int X)
-{
-    x = X;
+void GameObject::setPosition(int newX, int newY) {
+    x = newX;
+    y = newY;
 }
 
-void GameObject::setY(int Y)
+GameObject::GameObject(const GameObject& other) : x(other.x), y(other.y), symbol(other.symbol), color(other.color) {}
+GameObject::GameObject(GameObject&& other) : x(other.x), y(other.y), symbol(other.symbol), color(other.color) 
 {
-    y = Y;
+    other.x = 0;
+    other.y = 0;
+    other.symbol = ' ';
+    other.color = BLACK;
 }
-
+void GameObject::setColor(COLORS Color)
+{
+   color = Color;
+}
 void GameObject::setSymbol(char Symbol)
 {
     symbol = Symbol;
 }
-
-void GameObject::setColor(SDL_Color Color)
+GameObject& GameObject::operator=(const GameObject& other)
 {
-    color = Color;
+    if (this != &other)
+    {
+        x = other.x;
+        y = other.y;
+        symbol = other.symbol;
+        color = other.color;
+    }
+    return *this;
+}
+GameObject& GameObject::operator=(GameObject&& other)
+{
+    if (this != &other)
+    {
+        x = other.x;
+        y = other.y;
+        symbol = other.symbol;
+        color = other.color;
+
+        other.x = 0;
+        other.y = 0;
+        other.symbol = ' ';
+        other.color = BLACK;
+    }
+    return *this;
 }

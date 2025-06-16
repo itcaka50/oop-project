@@ -1,28 +1,19 @@
 #pragma once
-#include <SDL2/SDL.h>
 #include <iostream>
 #include "GameObject.h"
 
-class Bullet : public GameObject
-{
-private:
-    int direction;
+class Bullet : public GameObject {
 public:
-    
-    Bullet() : GameObject() {};
-
-    Bullet(int X, int Y, char Symbol, SDL_Color Color, int Direction) : GameObject(X, Y, Symbol, Color), direction(Direction) {}
-
-    Bullet(const Bullet& other) : GameObject(other), direction(other.direction) {}
-
+    Bullet() {}
+    Bullet(int X, int Y, char Symbol, COLORS Color, int Speed, bool IPB) : GameObject(X, Y, Symbol, Color), speed(Speed), isPlayerBullet(IPB) {}
+    Bullet(const Bullet& other);
     Bullet(Bullet&& other);
-
-    Bullet& operator=(const Bullet& other);
-
-    Bullet& operator=(Bullet&& other);
-
-    virtual void update() override;
-
-    virtual void render() override;
-
+    void update() override;   
+    void render() override;
+    int getSpeed() const;   
+    bool isOffScreen() const; 
+    void setSpeed(int Speed); 
+private:
+    int speed;
+    bool isPlayerBullet;
 };

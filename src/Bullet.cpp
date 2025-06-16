@@ -1,50 +1,42 @@
 #include "Bullet.h"
 
-Bullet::Bullet(Bullet&& other) : GameObject(other), direction(other.direction)
+
+Bullet::Bullet(const Bullet& other) : GameObject(other), speed(other.speed), isPlayerBullet(isPlayerBullet) {}
+
+Bullet::Bullet(Bullet&& other) : GameObject(other), speed(other.speed), isPlayerBullet(other.isPlayerBullet)
 {
-    other.x = 0;
-    other.y = 0;
-    other.symbol = NULL;
-    other.color = {0,0,0,0};
-    other.direction = 0;
+    other.speed = 0;
+    isPlayerBullet = false;
 }
 
-Bullet& Bullet::operator=(const Bullet& other)
-{
-    if(this != &other)
-    {
-        this->x = other.x;
-        this->y = other.y;
-        this->symbol = other.symbol;
-        this->color = other.color;
+void Bullet::update() {
+    if (isPlayerBullet) {
+        y--;  
     }
-    return *this;
+    else {
+        y++;  
+    }
 }
 
-Bullet& Bullet::operator=(Bullet&& other)
-{
-    if(this != &other)
-    {
-        this->x = other.x;
-        this->y = other.y;
-        this->symbol = other.symbol;
-        this->color = other.color;
+bool Bullet::isOffScreen() const {
+    return y < 0;
+}
 
-        other.x = 0;
-        other.y = 0;
-        other.symbol = NULL;
-        other.color = {0,0,0,0};
-        other.direction = 0;
+int Bullet::getSpeed() const {
+    return speed;
+}
+
+void Bullet::setSpeed(int newSpeed) {
+    if (newSpeed >= 0) 
+    { 
+        speed = newSpeed;
     }
-    return *this;
 }
 
 void Bullet::render()
 {
-
-}
-
-void Bullet::update()
-{
-
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD pos = { static_cast<SHORT>(x), static_cast<SHORT>(y) };
+    SetConsoleCursorPosition(hConsole, pos);
+    cout << static_cast<char>(symbol);
 }

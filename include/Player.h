@@ -3,43 +3,27 @@
 #include <iostream>
 #include "GameObject.h"
 
-class Player : public GameObject
-{
+class Player : public GameObject{
 private:
     int lives;
     int score;
+
 public:
-    Player() : GameObject(), lives(0), score(0) {}
-
-    Player(int X, int Y, char Symbol, SDL_Color Color, int Lives, int Score) : GameObject(X, Y, Symbol, Color), lives(Lives), score(Score) {}
-
-    Player(const Player& other) : GameObject(other), lives(other.lives), score(other.score) {}
-
-    Player(Player&& other) {}
-
-    Player& operator=(const Player& other);
-
-    Player& operator=(Player&& other);
-    //napishi
-    void moveRight();
-    //napishi
+    Player() {}
+    Player(int X, int Y, char Symbol, COLORS Color, int Lives, int Score) : GameObject(X, Y, Symbol, Color), lives(Lives), score(Score) {}
+    Player(Player& other);
+    Player(Player&& other);
     void moveLeft();
-    //napishi
+    void moveRight();
     void shoot();
-
-    int getLives() const;
-
+    void printStatus() const;
     int getScore() const;
-
-    void setLives(int Lives);
-
-    void setScore(int Score);
-
-    void operator+();
-
-    void operator-();
-    //napishi
+    int getLives() const;
+    Player& operator++(int);
+    Player& operator--(int);
     void update() override;
-    //napishi
     void render() override;
+    void setLives();
+    void setScore();
+    Player& operator=(const Player& other);
 };
